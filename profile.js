@@ -3,39 +3,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const navList = document.querySelector('.nav-list');
     const contactForm = document.getElementById('contact-form');
 
-    // Manejo del menú de hamburguesa
+    function setMenu(open) {
+        navList.classList.toggle('active', open);
+        menuToggle.setAttribute('aria-expanded', String(open));
+        const icon = menuToggle.querySelector('i');
+        icon.classList.toggle('fa-times', open);
+        icon.classList.toggle('fa-bars', !open);
+    }
+
+    // Menú de hamburguesa
     if (menuToggle && navList) {
         menuToggle.addEventListener('click', () => {
-            navList.classList.toggle('active');
-            const icon = menuToggle.querySelector('i');
-            if (navList.classList.contains('active')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
+            setMenu(!navList.classList.contains('active'));
+        });
+
+        // Cerrar menú al hacer clic en un enlace (móvil)
+        document.querySelectorAll('.nav-list a').forEach(link => {
+            link.addEventListener('click', () => setMenu(false));
         });
     }
 
-    // Cerrar menú al hacer clic en un enlace (móvil)
-    const navLinks = document.querySelectorAll('.nav-link');
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            if (navList.classList.contains('active')) {
-                navList.classList.remove('active');
-                const icon = menuToggle.querySelector('i');
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
-        });
-    });
-
-    // Validación básica de formulario
+    // Formulario de contacto
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            alert('¡Gracias! Un especialista en remodelación se pondrá en contacto contigo pronto.');
+            alert('¡Gracias! El equipo de SpaceUp se pondrá en contacto contigo pronto.');
             contactForm.reset();
         });
     }
